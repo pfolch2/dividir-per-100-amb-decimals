@@ -471,35 +471,20 @@ function pintarNombre(valor) {
 
     const text = String(valor);
 
-    // Separar la part decimal si existeix
-    const parts = text.split(",");
-
     let resultat = "";
 
-    if (parts.length === 1) {
+    for (let i = 0; i < text.length; i++) {
 
-        // Sense decimals: tots els números en blau
-        resultat = `<span class="blau">${text}</span>`;
+        const xifra = text[i];
 
-    } else {
-
-        const enter = parts[0];
-        const decimal = parts[1];
-
-        // Detectar zeros finals
-        const decimalSenseZeros = decimal.replace(/0+$/, "");
-        const zerosFinals = decimal.slice(decimalSenseZeros.length);
-
-        resultat =
-            `<span class="blau">${enter}</span>` +
-            `<span class="taronja">,</span>`;
-
-        if (decimalSenseZeros.length > 0) {
-            resultat += `<span class="blau">${decimalSenseZeros}</span>`;
+        if (xifra === ",") {
+            resultat += `<span class="taronja">,</span>`;
         }
-
-        if (zerosFinals.length > 0) {
-            resultat += `<span class="groc">${zerosFinals}</span>`;
+        else if (xifra === "0") {
+            resultat += `<span class="groc">0</span>`;
+        }
+        else {
+            resultat += `<span class="blau">${xifra}</span>`;
         }
 
     }
@@ -507,7 +492,7 @@ function pintarNombre(valor) {
     return resultat;
 
 }
-    
+ 
 /* CREAR L'ENUNCIAT AMB COLORS */
 
 function crearEnunciat(d, i) {
