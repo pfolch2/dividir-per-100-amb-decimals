@@ -133,6 +133,7 @@ h1 {
 
 .resultat input.blau-input {
     width: 75px;
+    min-width: 60px;
     background: rgba(70,160,255,.22);
     border-color: #2585d8;
 }
@@ -414,6 +415,7 @@ function classeInput(tipus) {
 }
 
 
+
 function crearCamps(i) {
 
     return dades[i].resposta.map((part, j) => `
@@ -422,10 +424,13 @@ function crearCamps(i) {
             type="text"
             ${part.tipus === "taronja"
                 ? 'maxlength="1"'
+                : part.tipus === "blau"
+                ? 'inputmode="numeric" maxlength="5"'
                 : `inputmode="numeric" maxlength="${Math.max(1, part.valor.length)}"`
             }
             id="camp_${i}_${j}"
             class="${classeInput(part.tipus)}"
+            oninput="ajustarAmplada(this)"
             aria-label="${
                 part.tipus === "taronja"
                 ? "Coma decimal"
@@ -440,6 +445,23 @@ function crearCamps(i) {
 
 }
 
+
+function ajustarAmplada(camp) {
+
+    if (camp.classList.contains("blau-input")) {
+
+        const ampladaMinima = window.innerWidth <= 700 ? 60 : 75;
+
+        const ampladaNova = Math.max(
+            ampladaMinima,
+            camp.value.length * 19 + 24
+        );
+
+        camp.style.width = ampladaNova + "px";
+
+    }
+
+}
 
 /* CREAR L'ENUNCIAT */
 
