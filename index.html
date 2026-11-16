@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIVIDIM NOMBRES DECIMALS</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #111;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border: 2px solid black;
+}
+
+h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.instruccions {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* COLORS */
+
+.blau {
+    background: linear-gradient(
+        transparent 30%,
+        rgba(70,160,255,.55) 30%,
+        rgba(70,160,255,.55) 90%,
+        transparent 90%
+    );
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.groc {
+    background: linear-gradient(
+        transparent 30%,
+        rgba(255,225,50,.75) 30%,
+        rgba(255,225,50,.75) 90%,
+        transparent 90%
+    );
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.taronja {
+    background: linear-gradient(
+        transparent 30%,
+        rgba(255,155,55,.65) 30%,
+        rgba(255,155,55,.65) 90%,
+        transparent 90%
+    );
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.llegenda {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    font-size: 17px;
+}
+
+.llegenda span {
+    padding: 5px 9px;
+    font-weight: bold;
+}
+
+.exercici {
+    border: 2px solid #222;
+    padding: 16px;
+    margin-bottom: 18px;
+    background: white;
+}
+
+.fila-exercici {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.enunciat {
+    font-size: 27px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* CASELLES DE RESPOSTA */
+
+.resultat {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.resultat input {
+    height: 52px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    border: 3px solid black;
+    outline: none;
+    border-radius: 0;
+    padding: 2px;
+    min-width: 0;
+}
+
+.resultat input.blau-input {
+    width: 75px;
+    background: rgba(70,160,255,.22);
+    border-color: #2585d8;
+}
+
+.resultat input.taronja-input {
+    width: 38px;
+    background: rgba(255,155,55,.25);
+    border-color: #e58b2a;
+    border-left: 1px solid #777;
+    border-right: 1px solid #777;
+}
+
+.resultat input.groc-input {
+    width: 65px;
+    background: rgba(255,225,50,.30);
+    border-color: #d5b500;
+}
+
+.resultat-final {
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
+}
+
+.resultat-final span {
+    padding: 2px 4px;
+}
+
+button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 11px 15px;
+    border: 2px solid black;
+    cursor: pointer;
+    background: white;
+}
+
+button:hover {
+    background: #eaeaea;
+}
+
+.correcte {
+    background: #c8f2c8;
+    border: 3px solid green;
+}
+
+.incorrecte {
+    background: #ffd1d1;
+    border: 3px solid red;
+}
+
+.missatge {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    min-height: 22px;
+}
+
+#resum {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.pdf {
+    display: block;
+    margin: 25px auto 0;
+    background: #222;
+    color: white;
+    padding: 16px 25px;
+    font-size: 20px;
+}
+
+.pdf:hover {
+    background: #444;
+}
+
+@media (max-width: 700px) {
+    .container { padding: 12px; }
+    .fila-exercici { gap: 10px; }
+    .enunciat { font-size: 23px; }
+
+    .resultat input {
+        height: 46px;
+        font-size: 21px;
+    }
+
+    .resultat input.blau-input { width: 60px; }
+    .resultat input.taronja-input { width: 32px; }
+    .resultat input.groc-input { width: 50px; }
+    .resultat-final { font-size: 25px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>DIVIDIM NOMBRES DECIMALS</h1>
+
+    <div class="instruccions">
+        OBSERVA LES DIVISIONS I COMPLETA EL RESULTAT.<br>
+        ESCRIU LES XIFRES A LES CASELLES BLAVES,<br>
+        LA COMA A LA CASELLA TARONJA I LES XIFRES DECIMALS A LA GROGA.
+    </div>
+
+    <div class="llegenda">
+        <span class="blau">PART ENTERA</span>
+        <span class="taronja">COMA DECIMAL</span>
+        <span class="groc">PART DECIMAL</span>
+    </div>
+
+    <div id="exercicis"></div>
+
+    <div id="resum"></div>
+
+    <button class="pdf" onclick="descarregarPDF()">
+        DESCARREGAR RESULTATS EN PDF
+    </button>
+
+</div>
+
+<script>
+
+// LES 10 DIVISIONS
+// BLAU = PART ENTERA
+// TARONJA = COMA DECIMAL
+// GROC = DUES XIFRES DECIMALS
+
+const dades = [
+
+    {
+        a: "840",
+        b: "10",
+        resposta: [
+            { tipus: "blau", valor: "84" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "00" }
+        ]
+    },
+
+    {
+        a: "1260",
+        b: "100",
+        resposta: [
+            { tipus: "blau", valor: "12" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "60" }
+        ]
+    },
+
+    {
+        a: "1560",
+        b: "1000",
+        resposta: [
+            { tipus: "blau", valor: "1" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "56" }
+        ]
+    },
+
+    {
+        a: "2250",
+        b: "100",
+        resposta: [
+            { tipus: "blau", valor: "22" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "50" }
+        ]
+    },
+
+    {
+        a: "3640",
+        b: "10",
+        resposta: [
+            { tipus: "blau", valor: "364" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "00" }
+        ]
+    },
+
+    {
+        a: "1440",
+        b: "100",
+        resposta: [
+            { tipus: "blau", valor: "14" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "40" }
+        ]
+    },
+
+    {
+        a: "2880",
+        b: "1000",
+        resposta: [
+            { tipus: "blau", valor: "2" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "88" }
+        ]
+    },
+
+    {
+        a: "3150",
+        b: "100",
+        resposta: [
+            { tipus: "blau", valor: "31" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "50" }
+        ]
+    },
+
+    {
+        a: "5400",
+        b: "10000",
+        resposta: [
+            { tipus: "blau", valor: "0" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "54" }
+        ]
+    },
+
+    {
+        a: "1320",
+        b: "10",
+        resposta: [
+            { tipus: "blau", valor: "132" },
+            { tipus: "taronja", valor: "," },
+            { tipus: "groc", valor: "00" }
+        ]
+    }
+
+];
+
+const resultats = [];
+
+
+/* CREAR LES CASELLES */
+
+function classeInput(tipus) {
+
+    return tipus === "taronja"
+        ? "taronja-input"
+        : tipus === "groc"
+        ? "groc-input"
+        : "blau-input";
+
+}
+
+
+function crearCamps(i) {
+
+    return dades[i].resposta.map((part, j) => `
+
+        <input
+            type="text"
+            ${part.tipus === "taronja"
+                ? 'maxlength="1"'
+                : `inputmode="numeric" maxlength="${Math.max(1, part.valor.length)}"`
+            }
+            id="camp_${i}_${j}"
+            class="${classeInput(part.tipus)}"
+            aria-label="${
+                part.tipus === "taronja"
+                ? "Coma decimal"
+                : part.tipus === "groc"
+                ? "Xifres decimals"
+                : "Xifres de la part entera"
+            }"
+            autocomplete="off"
+        >
+
+    `).join("");
+
+}
+
+
+/* CREAR L'ENUNCIAT */
+
+function crearEnunciat(d, i) {
+
+    return `
+
+        <div class="enunciat">
+
+            ${i + 1}.
+
+            <span>${d.a}</span>
+
+            ÷
+
+            <span>${d.b}</span>
+
+            =
+
+        </div>
+
+    `;
+
+}
+
+
+/* CREAR ELS EXERCICIS */
+
+function crearExercicis() {
+
+    const contenidor = document.getElementById("exercicis");
+
+    dades.forEach((d, i) => {
+
+        resultats[i] = {
+            resposta: "",
+            estat: "PENDENT"
+        };
+
+        const exercici = document.createElement("div");
+
+        exercici.className = "exercici";
+        exercici.id = "ex" + i;
+
+        exercici.innerHTML = `
+
+            <div class="fila-exercici">
+
+                ${crearEnunciat(d, i)}
+
+                <div class="resultat" id="zona_${i}">
+                    ${crearCamps(i)}
+                </div>
+
+                <button id="boto_${i}" onclick="corregir(${i})">
+                    CORREGIR
+                </button>
+
+                <button onclick="reiniciar(${i})">
+                    TORNAR A COMENÇAR
+                </button>
+
+            </div>
+
+            <div class="missatge" id="m${i}"></div>
+
+        `;
+
+        contenidor.appendChild(exercici);
+
+    });
+
+    actualitzarResum();
+
+}
+
+
+/* CORREGIR LES RESPOSTES */
+
+function corregir(i) {
+
+    const d = dades[i];
+
+    const valors = d.resposta.map((part, j) =>
+        document.getElementById(`camp_${i}_${j}`).value.trim()
+    );
+
+    resultats[i].resposta = valors.join("");
+
+    const correcte = valors.every((valor, j) =>
+        valor === d.resposta[j].valor
+    );
+
+    const missatge = document.getElementById("m" + i);
+    const exercici = document.getElementById("ex" + i);
+
+    if (correcte) {
+
+        resultats[i].estat = "CORRECTE";
+
+        missatge.textContent = "MOLT BÉ! RESULTAT CORRECTE!";
+        missatge.style.color = "green";
+
+        exercici.classList.add("correcte");
+        exercici.classList.remove("incorrecte");
+
+        // MOSTRAR EL RESULTAT AMB ELS COLORS CORRECTES
+
+        const zona = document.getElementById("zona_" + i);
+
+        zona.innerHTML = `
+
+            <div class="resultat-final">
+
+                ${
+                    d.resposta.map(part =>
+                        `<span class="${part.tipus}">${part.valor}</span>`
+                    ).join("")
+                }
+
+            </div>
+
+        `;
+
+        document.getElementById("boto_" + i).style.display = "none";
+
+    } else {
+
+        resultats[i].estat = "INCORRECTE";
+
+        missatge.textContent = "TORNA-HO A PROVAR!";
+        missatge.style.color = "red";
+
+        exercici.classList.add("incorrecte");
+        exercici.classList.remove("correcte");
+
+    }
+
+    actualitzarResum();
+
+}
+
+
+/* TORNAR A COMENÇAR */
+
+function reiniciar(i) {
+
+    document.getElementById("zona_" + i).innerHTML = crearCamps(i);
+
+    document.getElementById("boto_" + i).style.display = "inline-block";
+
+    document.getElementById("m" + i).textContent = "";
+
+    document.getElementById("ex" + i).classList.remove(
+        "correcte",
+        "incorrecte"
+    );
+
+    resultats[i].resposta = "";
+    resultats[i].estat = "PENDENT";
+
+    actualitzarResum();
+
+}
+
+
+/* COMPTADOR D'ENCERTS */
+
+function actualitzarResum() {
+
+    const correctes = resultats.filter(
+        r => r.estat === "CORRECTE"
+    ).length;
+
+    document.getElementById("resum").textContent =
+        "EXERCICIS CORRECTES: " + correctes + " / " + dades.length;
+
+}
+
+
+/* DESCARREGAR PDF */
+
+function descarregarPDF() {
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+
+    doc.text("RESULTATS: DIVISIONS DECIMALS", 15, 20);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+
+    let y = 32;
+
+    const correctes = resultats.filter(
+        r => r.estat === "CORRECTE"
+    ).length;
+
+    const incorrectes = resultats.filter(
+        r => r.estat === "INCORRECTE"
+    ).length;
+
+    const pendents = resultats.filter(
+        r => r.estat === "PENDENT"
+    ).length;
+
+    doc.text("Exercicis correctes: " + correctes, 15, y);
+    y += 7;
+
+    doc.text("Exercicis incorrectes: " + incorrectes, 15, y);
+    y += 7;
+
+    doc.text("Exercicis pendents: " + pendents, 15, y);
+    y += 12;
+
+    doc.setFont("helvetica", "bold");
+    doc.text("DETALL DELS EXERCICIS", 15, y);
+    y += 9;
+
+    doc.setFont("helvetica", "normal");
+
+    dades.forEach((d, i) => {
+
+        if (y > 270) {
+            doc.addPage();
+            y = 20;
+        }
+
+        const resposta = resultats[i].resposta || "(buit)";
+
+        doc.text(
+            `${i + 1}. ${d.a} ÷ ${d.b} = ${resposta} | ${resultats[i].estat}`,
+            15,
+            y
+        );
+
+        y += 9;
+
+    });
+
+    doc.save("resultats_divisions_decimals.pdf");
+
+}
+
+
+/* INICIAR */
+
+crearExercicis();
+
+</script>
+
+</body>
+</html>
