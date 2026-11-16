@@ -465,6 +465,50 @@ function ajustarAmplada(camp) {
 
 /* CREAR L'ENUNCIAT */
 
+/* APLICAR COLORS ALS NOMBRES DE L'ENUNCIAT */
+
+function pintarNombre(valor) {
+
+    const text = String(valor);
+
+    // Separar la part decimal si existeix
+    const parts = text.split(",");
+
+    let resultat = "";
+
+    if (parts.length === 1) {
+
+        // Sense decimals: tots els números en blau
+        resultat = `<span class="blau">${text}</span>`;
+
+    } else {
+
+        const enter = parts[0];
+        const decimal = parts[1];
+
+        // Detectar zeros finals
+        const decimalSenseZeros = decimal.replace(/0+$/, "");
+        const zerosFinals = decimal.slice(decimalSenseZeros.length);
+
+        resultat =
+            `<span class="blau">${enter}</span>` +
+            `<span class="taronja">,</span>`;
+
+        if (decimalSenseZeros.length > 0) {
+            resultat += `<span class="blau">${decimalSenseZeros}</span>`;
+        }
+
+        if (zerosFinals.length > 0) {
+            resultat += `<span class="groc">${zerosFinals}</span>`;
+        }
+
+    }
+
+    return resultat;
+
+}
+    
+/* CREAR L'ENUNCIAT AMB COLORS */
 
 function crearEnunciat(d, i) {
 
@@ -472,11 +516,11 @@ function crearEnunciat(d, i) {
 
         <div class="enunciat">
 
-            <span>${d.a}</span>
+            ${pintarNombre(d.a)}
 
             ÷
 
-            <span>${d.b}</span>
+            ${pintarNombre(d.b)}
 
             =
 
