@@ -497,25 +497,36 @@ function pintarNombre(valor) {
 
 function crearEnunciat(d, i) {
 
+    let divisor = String(d.b);
+
+    let divisorPintat = "";
+
+    for (let j = 0; j < divisor.length; j++) {
+
+        const xifra = divisor[j];
+
+        if (xifra === "1") {
+            divisorPintat += `<span>${xifra}</span>`;
+        }
+        else if (xifra === "0") {
+            divisorPintat += `<span class="groc">${xifra}</span>`;
+        }
+        else {
+            divisorPintat += `<span class="blau">${xifra}</span>`;
+        }
+
+    }
+
     return `
-
         <div class="enunciat">
-
             ${pintarNombre(d.a)}
-
             ÷
-
-            ${pintarNombre(d.b)}
-
+            ${divisorPintat}
             =
-
         </div>
-
     `;
-
 }
-
-
+    
 /* CREAR ELS EXERCICIS */
 
 function crearExercicis() {
