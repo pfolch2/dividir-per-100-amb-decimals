@@ -241,13 +241,13 @@ button:hover {
     <div class="instruccions">
         OBSERVA LES DIVISIONS I COMPLETA EL RESULTAT.<br>
         ESCRIU LES XIFRES A LES CASELLES BLAVES,<br>
-        LA COMA A LA CASELLA TARONJA I LES XIFRES DECIMALS A LA GROGA.
+        LA COMA A LA CASELLA TARONJA I ELS ZEROS A LA GROGA.
     </div>
 
     <div class="llegenda">
-        <span class="blau">PART ENTERA</span>
+        <span class="blau">XIFRES DEL RESULTAT</span>
         <span class="taronja">COMA DECIMAL</span>
-        <span class="groc">PART DECIMAL</span>
+        <span class="groc">ZERO FINAL</span>
     </div>
 
     <div id="exercicis"></div>
@@ -262,110 +262,137 @@ button:hover {
 
 <script>
 
-// LES 10 DIVISIONS
-// BLAU = PART ENTERA
+// LES 12 DIVISIONS
+//
+// BLAU = XIFRES DEL RESULTAT
 // TARONJA = COMA DECIMAL
-// GROC = DUES XIFRES DECIMALS
+// GROC = ZERO O ZEROS FINALS
+//
+// CADA EXERCICI TÉ NOMÉS LES FRANGES NECESSÀRIES.
 
 const dades = [
 
+    // 1. 840 : 10 = 84
     {
         a: "840",
         b: "10",
         resposta: [
-            { tipus: "blau", valor: "84" },
-            { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "00" }
+            { tipus: "blau", valor: "84" }
         ]
     },
 
+    // 2. 1260 : 100 = 12,6
     {
         a: "1260",
         b: "100",
         resposta: [
             { tipus: "blau", valor: "12" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "60" }
+            { tipus: "blau", valor: "6" }
         ]
     },
 
+    // 3. 1560 : 1000 = 1,56
     {
         a: "1560",
         b: "1000",
         resposta: [
             { tipus: "blau", valor: "1" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "56" }
+            { tipus: "blau", valor: "56" }
         ]
     },
 
+    // 4. 2250 : 100 = 22,5
     {
         a: "2250",
         b: "100",
         resposta: [
             { tipus: "blau", valor: "22" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "50" }
+            { tipus: "blau", valor: "5" }
         ]
     },
 
+    // 5. 3640 : 10 = 364
     {
         a: "3640",
         b: "10",
         resposta: [
-            { tipus: "blau", valor: "364" },
-            { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "00" }
+            { tipus: "blau", valor: "364" }
         ]
     },
 
+    // 6. 1440 : 100 = 14,4
     {
         a: "1440",
         b: "100",
         resposta: [
             { tipus: "blau", valor: "14" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "40" }
+            { tipus: "blau", valor: "4" }
         ]
     },
 
+    // 7. 2880 : 1000 = 2,88
     {
         a: "2880",
         b: "1000",
         resposta: [
             { tipus: "blau", valor: "2" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "88" }
+            { tipus: "blau", valor: "88" }
         ]
     },
 
+    // 8. 3150 : 100 = 31,5
     {
         a: "3150",
         b: "100",
         resposta: [
             { tipus: "blau", valor: "31" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "50" }
+            { tipus: "blau", valor: "5" }
         ]
     },
 
+    // 9. 5400 : 10000 = 0,54
     {
         a: "5400",
         b: "10000",
         resposta: [
             { tipus: "blau", valor: "0" },
             { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "54" }
+            { tipus: "blau", valor: "54" }
         ]
     },
 
+    // 10. 1320 : 10 = 132
     {
         a: "1320",
         b: "10",
         resposta: [
-            { tipus: "blau", valor: "132" },
-            { tipus: "taronja", valor: "," },
-            { tipus: "groc", valor: "00" }
+            { tipus: "blau", valor: "132" }
+        ]
+    },
+
+    // 11. 1200 : 10 = 120
+    {
+        a: "1200",
+        b: "10",
+        resposta: [
+            { tipus: "blau", valor: "12" },
+            { tipus: "groc", valor: "0" }
+        ]
+    },
+
+    // 12. 12000 : 100 = 120
+    {
+        a: "12000",
+        b: "100",
+        resposta: [
+            { tipus: "blau", valor: "12" },
+            { tipus: "groc", valor: "0" }
         ]
     }
 
@@ -374,7 +401,7 @@ const dades = [
 const resultats = [];
 
 
-/* CREAR LES CASELLES */
+/* CREAR LES CASELLES SEGONS LES FRANGES */
 
 function classeInput(tipus) {
 
@@ -403,8 +430,8 @@ function crearCamps(i) {
                 part.tipus === "taronja"
                 ? "Coma decimal"
                 : part.tipus === "groc"
-                ? "Xifres decimals"
-                : "Xifres de la part entera"
+                ? "Zero final"
+                : "Xifres del resultat"
             }"
             autocomplete="off"
         >
@@ -519,7 +546,7 @@ function corregir(i) {
         exercici.classList.add("correcte");
         exercici.classList.remove("incorrecte");
 
-        // MOSTRAR EL RESULTAT AMB ELS COLORS CORRECTES
+        // MOSTRAR LES FRANGES DE COLORS CORRECTES
 
         const zona = document.getElementById("zona_" + i);
 
